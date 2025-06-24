@@ -1,18 +1,45 @@
-# Salesforce DX Project: Next Steps
+#Support Session Scheduler (LWC for Experience Cloud)
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+This Lightning Web Component (`datePicker`) allows users to select start and end dates from a range and pick a specific session date via a calendar. It is designed for Experience Cloud (LWR template) sites and supports mobile responsiveness, accessibility, and clear user feedback.
 
-## How Do You Plan to Deploy Your Changes?
+##Installation & Configuration
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+1. **Clone or download the component** into your Salesforce DX project:
+   ```bash 
+   force-app/main/default/lwc/datePicker
+   ```
 
-## Configure Your Salesforce DX Project
+2. **Deploy to Org:**
+   ```bash
+   sfdx force:source:deploy -p force-app/main/default/lwc/datePicker
+   ```
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+3. **Add the component** to your LWR Experience Cloud site like this “Support Session Scheduler” to page).
 
-## Read All About It
+##Key Implementation Decisions
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+- **Validation Logic:** Dates outside the range, past dates, and weekends are disabled both in inputs and in the calendar view.
+- **Local Time Handling:** Dates are normalized using `Date.UTC` to prevent off-by-one issues caused by time zones.
+- **User Feedback:** Inline validation messages and toast notifications are used for better UX.
+- **Accessibility:** ARIA roles/labels added; keyboard interactions supported.
+
+##Assumptions & Limitations
+- Assumes the Experience Site uses **LWR (Build Your Own)** template.
+- Date exclusions are limited to weekends and a provided `excludedDates` array.
+- Supports only **date selection**, not time slots.
+
+##UX and Accessibility
+- Built using **SLDS** and responsive **grid layout**.
+- Confirmation modal with formatted date like `July 15, 2025` for clarity.
+- **ARIA labels**, keyboard navigation, and visual cues for invalid input enhance accessibility.
+
+##Example Usage
+```html <c-date-picker></c-date-picker>
+```
+##Files Overview
+- `datePicker.html` – HTML template with SLDS layout and modal.
+- `datePicker.js` – Full validation, calendar logic, and modal interaction.
+- `datePicker.css` *(optional)* – Responsive and accessible styling for mobile.
+
+##Maintainer
+Developed by Satish Ponugupati. 
