@@ -1,0 +1,26 @@
+.calendar-container {
+  max-width: 100%;
+}
+.input-section {
+  margin-bottom: 1rem;
+}
+.header button {
+  min-width: 2rem;
+}
+.day-name {
+  font-weight: bold;
+  padding: 0.25rem;
+  text-align: center;
+}
+.selected {
+  background-color: #0070d2 !important;
+  color: white;
+  border-radius: 50%;
+}
+.disabled {
+  color: #ddd;
+  pointer-events: none;
+}
+.dimmed {
+  color: #aaa;
+}

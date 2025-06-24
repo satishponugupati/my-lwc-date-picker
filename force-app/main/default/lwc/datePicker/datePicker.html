@@ -1,0 +1,135 @@
+<template>
+  <div aria-hidden={isModalOpen}>
+    <div class="slds-box slds-theme_default calendar-container">
+      <div class="slds-grid slds-wrap slds-gutters input-section">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+          <lightning-input
+            type="date"
+            label="Start Date"
+            name="startDate"
+            value={startDate}
+            min={minDate}
+            onchange={handleStartDateChange}
+            required
+          >
+          </lightning-input>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+          <lightning-input
+            type="date"
+            label="End Date"
+            name="endDate"
+            value={endDate}
+            min={minDate}
+            onchange={handleEndDateChange}
+            required
+          >
+          </lightning-input>
+        </div>
+      </div>
+
+      <div class="slds-grid slds-align_absolute-center header">
+        <button
+          class="slds-button slds-button_neutral"
+          onclick={previousMonth}
+          disabled={isPrevDisabled}
+        >
+          &lt;
+        </button>
+        <h2 class="slds-m-horizontal_medium">{currentMonthLabel}</h2>
+        <button
+          class="slds-button slds-button_neutral"
+          onclick={nextMonth}
+          disabled={isNextDisabled}
+        >
+          &gt;
+        </button>
+      </div>
+    </div>
+
+    <div class="slds-grid days-header slds-align_absolute-center">
+      <template for:each={daysOfWeek} for:item="day">
+        <div class="slds-col day-name" key={day}>{day}</div>
+      </template>
+    </div>
+
+    <div class="slds-grid slds-wrap days-grid">
+      <template for:each={calendarDays} for:item="day">
+        <div
+          class={day.class}
+          key={day.date}
+          onclick={selectDate}
+          data-date={day.date}
+        >
+          {day.label}
+        </div>
+      </template>
+    </div>
+    <div class="slds-align_absolute-center footer">
+      <lightning-button
+        label="Submit"
+        variant="brand"
+        class="slds-m-top_small"
+        onclick={handleSubmit}
+      ></lightning-button>
+    </div>
+    <template if:true={dateError}>
+      <div
+        class="slds-text-color_error slds-m-top_x-small slds-align_absolute-center"
+      >
+        {dateError}
+      </div>
+    </template>
+  </div>
+
+  <template if:true={isModalOpen}>
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-modal="true"
+      aria-labelledby="modal-heading-id"
+      aria-describedby="modal-content-id"
+      class="slds-modal slds-fade-in-open"
+    >
+      <div class="slds-modal__container">
+        <!-- Modal Header with title and close (X) button -->
+        <header class="slds-modal__header">
+          <button
+            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+            title="Close"
+            onclick={handleModalOk}
+          >
+            <lightning-icon
+              icon-name="utility:close"
+              alternative-text="Close"
+              variant="inverse"
+              size="small"
+            >
+            </lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2
+            id="modal-heading-id"
+            class="slds-text-heading_medium slds-hyphenate"
+          >
+            Confirmation
+          </h2>
+        </header>
+        <!-- Modal Body with confirmation message -->
+        <div
+          class="slds-modal__content slds-p-around_medium"
+          id="modal-content-id"
+        >
+          Thank you! Your session is booked for {selectedDateStr}.
+        </div>
+        <!-- Modal Footer with OK button -->
+        <footer class="slds-modal__footer">
+          <button class="slds-button slds-button_brand" onclick={handleModalOk}>
+            OK
+          </button>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>

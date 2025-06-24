@@ -1,0 +1,88 @@
+<template>
+  <lightning-card class="slds-p-around_x-small">
+    <div
+      class="slds-datepicker slds-dropdown slds-dropdown_left"
+      role="dialog"
+      aria-hidden="false"
+    >
+      <div class="slds-datepicker__filter slds-grid">
+        <div
+          class="slds-datepicker__filter_month slds-grid slds-grid_align-spread slds-grow"
+        >
+          <div class="slds-align-middle">
+            <lightning-button-icon
+              icon-name="utility:left"
+              variant="bare"
+              alternative-text="Previous Month"
+              onclick={goToPreviousMonth}
+              class="no-focus"
+              icon-class="no-focus"
+              disabled={prevDisabled}
+            >
+            </lightning-button-icon>
+          </div>
+
+          <h2
+            id="monthLabel"
+            class="slds-align-middle"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            {monthLabel}
+          </h2>
+
+          <div class="slds-align-middle">
+            <lightning-button-icon
+              icon-name="utility:right"
+              variant="bare"
+              alternative-text="Next Month"
+              onclick={goToNextMonth}
+              class="no-focus"
+              icon-class="no-focus"
+              disabled={nextDisabled}
+            >
+            </lightning-button-icon>
+          </div>
+        </div>
+      </div>
+
+      <table
+        class="slds-datepicker__month"
+        role="grid"
+        aria-labelledby="monthLabel"
+      >
+        <thead>
+          <tr>
+            <th scope="col"><abbr title="Sunday">Sun</abbr></th>
+            <th scope="col"><abbr title="Monday">Mon</abbr></th>
+            <th scope="col"><abbr title="Tuesday">Tue</abbr></th>
+            <th scope="col"><abbr title="Wednesday">Wed</abbr></th>
+            <th scope="col"><abbr title="Thursday">Thu</abbr></th>
+            <th scope="col"><abbr title="Friday">Fri</abbr></th>
+            <th scope="col"><abbr title="Saturday">Sat</abbr></th>
+          </tr>
+        </thead>
+        <tbody>
+          <template for:each={weeks} for:item="week">
+            <tr key={week.id}>
+              <template for:each={week.days} for:item="day">
+                <td
+                  key={day.key}
+                  class={day.tdClass}
+                  data-value={day.dateStr}
+                  data-disabled={day.disabled}
+                  aria-selected={day.selected}
+                  aria-disabled={day.disabled}
+                  role="gridcell"
+                  onclick={handleDateClick}
+                >
+                  <span class="slds-day">{day.label}</span>
+                </td>
+              </template>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </lightning-card>
+</template>
